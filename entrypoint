@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+: "${DOCKER1?Need a docker image to put into production}"
+: "${DOCKER2?Need another docker image to put into production}"
+: "${RACHER_USER_KEY?Need a Rancher user key}"
+: "${RACHER_USER_PASS?Need a Rancher user pass}"
+: "${RACHER_URL?Need a Rancher URL}"
+: "${GITHUB_REPO?Need a repository name}"
+: "${GITHUB_USER?Need a GitHub username}"
+: "${GITHUB_BRANCH:=master}"
+: "${REPO_DIR:=.}"
+
+
+set -xe
+# Clone repo and get inside
+git clone                                                                      \
+    -b "$GITHUB_BRANCH"                                                        \
+    https://github.com/"$GITHUB_USER"/"$GITHUB_REPO".git                       \
+    /srv/"$GITHUB_REPO"
+cd /srv/"$GITHUB_REPO"/"$REPO_DIR"
+
+# Prepare docker-compose.yml
+
+
+# Prepare rancher-compose.yml
+
+
+# Upload container to Rancher
+
+rancher up -d
+rancher up -d
