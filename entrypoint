@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 
-: "${DOCKER1?Need a docker image to put into production}"
-: "${DOCKER2?Need another docker image to put into production}"
-: "${RACHER_USER_KEY?Need a Rancher user key}"
-: "${RACHER_USER_PASS?Need a Rancher user pass}"
-: "${RACHER_URL?Need a Rancher URL}"
+: "${RANCHER_ACCESS_KEY?Need a Rancher access key}"
+: "${RANCHER_SECRET_KEY?Need a Rancher secret key}"
+: "${RANCHER_URL?Need a Rancher URL}"
 : "${GITHUB_REPO?Need a repository name}"
 : "${GITHUB_USER?Need a GitHub username}"
 : "${GITHUB_BRANCH:=master}"
 : "${REPO_DIR:=.}"
-
+: "${STACK_NAME?Need a Rancher stack name}"
+: "${DOCKERHUB_USER?Need a DockerHub user}"
 
 set -xe
 # Clone repo and get inside
@@ -19,13 +18,26 @@ git clone                                                                      \
     /srv/"$GITHUB_REPO"
 cd /srv/"$GITHUB_REPO"/"$REPO_DIR"
 
+# Extract artifact name and version from pom.xml
+VERSION=$(xpath -q -e '/project/version/text()' pom.xml)
+TARGET=$(xpath -q -e '/project/artifactId/text()' pom.xml)
+
 # Prepare docker-compose.yml
 
+sed -i                          		\
+    -e "s!@STACK_NAME@!$STACK_NAME!"            \
+    -e "s!@DOCKERHUB_USER@!$DOCKERHUB_USER!"    \
+    -e "s!@GITHUB_REPO@!$GITHUB_REPO!"   	\
+    -e "s!@VERSION@!$VERSION!"            	\
+    docker-compose.yml
 
 # Prepare rancher-compose.yml
 
+sed -i									\
+    -e "s!@STACK_NAME@!$STACK_NAME!"					\
+    rancher-compose.yml
 
 # Upload container to Rancher
 
-rancher up -d
-rancher up -d
+rancher up -d -u -s $STACK_NAME
+rancher up -d -c -s $STACK_NAME

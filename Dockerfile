@@ -7,7 +7,11 @@ LABEL Description="HMS Maven Deployer"                                         \
 
 # Install rancher cli, remove Docker when done
 RUN set -ex;                                                                   \
-    apk add --update --no-cache docker;                                        \
+    wget -qO-                                                                  \
+    https://releases.rancher.com/cli/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz  \
+    | tar xzv                                                                  \
+    -C /usr/local/bin                                                          \
+    --strip-components=2;
 
 # Copy and set entrypoint
 COPY entrypoint /usr/local/bin
