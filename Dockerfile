@@ -1,7 +1,7 @@
 FROM rawmind/hms-jre8:1.8.112
 MAINTAINER Rodrigo de la Fuente <rodrigo@delafuente.email>
 
-LABEL Description="HMS Maven Publisher"                                        \
+LABEL Description="HMS Maven Deployer"                                         \
       Vendor="ACME Products"                                                   \
       Version="1.0"
 
