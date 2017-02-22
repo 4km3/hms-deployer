@@ -28,7 +28,7 @@ cd /srv/"$GITHUB_REPO"/
 sed -i                          		\
     -e "s!@STACK_NAME@!$STACK_NAME!"            \
     -e "s!@DOCKERHUB_USER@!$DOCKERHUB_USER!"    \
-    -e "s!@GITHUB_REPO@!$GITHUB_REPO!"   	\
+    -e "s!@TARGET@!$TARGET!"             	\
     -e "s!@VERSION@!$VERSION!"            	\
     docker-compose.yml
 
