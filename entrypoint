@@ -24,6 +24,7 @@ TARGET=$(xpath -q -e '/project/artifactId/text()' pom.xml)
 
 # Prepare docker-compose.yml
 
+cd /srv/"$GITHUB_REPO"/
 sed -i                          		\
     -e "s!@STACK_NAME@!$STACK_NAME!"            \
     -e "s!@DOCKERHUB_USER@!$DOCKERHUB_USER!"    \

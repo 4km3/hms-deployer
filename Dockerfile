@@ -7,7 +7,7 @@ LABEL Description="HMS Maven Deployer"                                         \
 
 # Install rancher cli, remove Docker when done
 RUN set -ex;                                                                   \
-    apk add --update --no-cache perl-xml-xpath;                                \
+    apk add --update --no-cache git perl-xml-xpath;                            \
     wget -qO-                                                                  \
     https://releases.rancher.com/cli/v0.4.1/rancher-linux-amd64-v0.4.1.tar.gz  \
     | tar xzv                                                                  \
